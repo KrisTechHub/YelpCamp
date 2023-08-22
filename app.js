@@ -1,9 +1,9 @@
 const express = require('express');
-const app = express();
 const path = require('path');
-const mongoose = require('mongoose');
 const Campground = require('./models/campground')
 
+
+const mongoose = require('mongoose');
 main().catch(err => console.log(err));
 
 async function main() {
@@ -11,17 +11,23 @@ async function main() {
   console.log("connected to mongo");
 }
 
+
+const app = express();
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'))
+
 
 app.get('/', (req, res) => {
     res.render('home')
 })
 
-app.get('/makecampground', async (req, res) => {
-    const camp = new Campground({title: 'My Backyard', description: 'Cheapest camping'});
-    await camp.save();
-    res.send(camp);
+app.get('/campgrounds', async (req, res) => {
+    const campgrounds = await Campground.find({});
+    res.render('campgrounds/index', { campgrounds})
+})
+
+app.get('/', (req, res) => {
+    res.render()
 })
 
 app.listen(3000, () => {
