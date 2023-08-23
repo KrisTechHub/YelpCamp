@@ -7,9 +7,12 @@
 </head>
 <body>
     <h3>Campsites around the area.</h3>
+    <div>
+        <a href="/campgrounds/new">Add Campground</a>
+    </div>
     <ul>
         <% for (let camp of campgrounds ) { %>
-            <li><%= camp.title %> - <%= camp.location %></li>
+            <li><a href="campgrounds/<%= camp._id %>"><%= camp.title %></a></li>
         <% } %>
     </ul>
 </body>
