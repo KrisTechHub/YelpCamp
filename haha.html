@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>sample unsplash</title>
+</head>
+<body>
+    <h1>sample unsplash photo</h1>
+    <img id="unsplashImg">
+    <script>
+
+        const endpoint = 'https://api.unsplash.com/photos/random/?client_id=5PwUc2Y8dcQeOBwAfNl5QfpxGkaziTUvSPB5hqJpUXs';
+                let imgEl = document.querySelector('#unsplashImg');
+
+            fetch(endpoint)
+                .then(function (res) {
+                    return res.json()
+                })
+                .then(function (jsonData) {
+                    console.log(jsonData);
+                    imgEl.src = jsonData.urls.small;
+                })
+    </script>
+</body>
+</html>

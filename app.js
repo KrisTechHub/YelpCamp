@@ -3,9 +3,10 @@ const path = require('path');
 const Campground = require('./models/campground')
 const methodOverride = require('method-override');
 const ejsMate = require('ejs-mate');
+const unsplashRoutes = require('./routes/unsplash'); // Import your Unsplash API routes
+
 const mongoose = require('mongoose');
 main().catch(err => console.log(err));
-
 async function main() {
   await mongoose.connect('mongodb://127.0.0.1:27017/YelpCamp'); // use `await mongoose.connect('mongodb://user:password@127.0.0.1:27017/test');` if your database has auth enabled
   console.log("connected to mongo");
@@ -16,6 +17,7 @@ const app = express();
 app.engine('ejs', ejsMate)
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
+app.use('/api/unsplash', unsplashRoutes); // Use the Unsplash API routes
 app.use(express.urlencoded({ extended : true }));
 app.use(methodOverride('_method')); //app.use allow us to run code on every single request
 
