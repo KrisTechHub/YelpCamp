@@ -1,3 +1,14 @@
-<div class="alert alert-danger" role="alert">
-    
+<% layout('layouts/boilerplate') %>
+
+<div class="row">
+    <div class="col-8 offset-2">
+        <div class="alert alert-danger" role="alert">
+            <h4 class="alert-heading"><%= err.message %>!</h4>
+            <p class="my-5" ><%= err.stack %> <%= err %></p>
+            <hr>
+            <p class="mb-0">
+                Please check your query or internet connection.
+            </p>
+        </div>
+    </div>
 </div>

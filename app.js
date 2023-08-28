@@ -4,6 +4,7 @@ const Campground = require('./models/campground')
 const ExpressError = require('./Utilities/ExpressError');
 const methodOverride = require('method-override');
 const ejsMate = require('ejs-mate');
+const Joi = require('joi');
 const unsplashRoutes = require('./routes/unsplash'); // Import your Unsplash API routes
 const catchAsync = require('./Utilities/catchAsync');
 
@@ -38,6 +39,7 @@ app.get('/campgrounds/new', (req, res) => {//add new campground
 })
 
 app.post('/campgrounds', catchAsync(async (req, res, next) => { //add new campground
+    // if (!req.body.campground) throw new ExpressError('Invalid Campground Data', 400); //error
     const campground = new Campground(req.body.campground);
     await campground.save();
     res.redirect(`/campgrounds/${campground._id}`)
@@ -71,7 +73,8 @@ app.all('*', (req, res, next) => {
 
 app.use((err, req, res, next) => {
     const { statusCode= 500, message = 'Requested page not found!' } = err;
-    res.status(statusCode).send(message);
+    if (!err.message) err.message = 'Oh no, something went wrong!'
+    res.status(statusCode).render('error', {err});
 })
 
 app.listen(3000, () => {
