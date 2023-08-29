@@ -20,10 +20,27 @@
                 <a class="btn btn-info card-link" href="/campgrounds">All Campgrounds</a>
             </div>
 
+
             <div class="card-footer text-muted">
-                Footer
+                2 days ago
             </div>
         </div>
+
+
+            <h5><i>Leave a review</i></h5>
+            <form action="" class="mb-3">
+                <div class="mb-3">
+                    <label class="form-label" for="rating"><i>Rating</i></label>
+                    <input class="form-range" type="range" id="rating" min="1" max="5" name="review[rating]">
+
+                </div>
+                <div class="mb-3">
+                    <label class="form-label" for="body"><i>Review</i></label>
+                    <textarea class="form-control" name="review[body]" id="body" cols="30" rows="4"></textarea>
+                </div>
+
+                <button class="btn btn-success" type="submit">Submit</button>
+            </form>
 
     </div>
 </div>    

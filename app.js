@@ -85,7 +85,12 @@ app.delete('/campgrounds/:id', catchAsync(async (req, res, next) => {//delete ca
     res.redirect('/campgrounds');
 }))
 
+app.post('/campgrounds/:id/review', catchAsync(async (err, req, res, next) => {
+    res.send('you made it')
+}))
 
+
+//HANDLING ERROR
 app.all('*', (req, res, next) => {
     next(new ExpressError('Page not found', 404))
 }) //app.all - for every single request, this will run. this will only run if no error matches from the other pre-defined errors
