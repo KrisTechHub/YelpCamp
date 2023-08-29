@@ -5,19 +5,19 @@
             <form action="/campgrounds" method="POST" novalidate class="validated-form">
                 <div class="mb-3">
                     <label class="form-label" for="title">Title</label>
-                    <input class="form-control" type="text" id="title" name="campground[title]" required>
+                    <input class="form-control" type="text" id="title" name="campground[title]" required placeholder="Campground name">
                     <div class="valid-feedback">Looks good!</div>
                 </div>
 
                 <div class="mb-3">
                     <label class="form-label" for="location">Location</label>
-                    <input class="form-control" type="text" id="location" name="campground[location]" required>
+                    <input class="form-control" type="text" id="location" name="campground[location]" required placeholder="City, State">
                     <div class="valid-feedback">Looks good!</div>
                 </div>
                 
                 <div class="mb-3">
                     <label class="form-label" for="image">Image Url</label>
-                    <input class="form-control" type="text" id="image" name="campground[image]" required>
+                    <input class="form-control" type="text" id="image" name="campground[image]" required placeholder="www.imageUrl.com">
                     <div class="valid-feedback">Looks good!</div>
                 </div>
 
@@ -33,7 +33,7 @@
 
                 <div class="mb-3">
                     <label class="form-label" for="description">Description</label>
-                    <textarea class="form-control" type="text" id="description" name="campground[description]" required></textarea>
+                    <textarea class="form-control" type="text" id="description" name="campground[description]" required placeholder="Describe camp site"></textarea>
                     <div class="valid-feedback">Looks good!</div>
                 </div>
                 <div class="mb-3">
@@ -43,27 +43,3 @@
             <a href="/campgrounds">Show All camgrounds</a>
     </div>
 </div>
-
-
-<script>
-    // Example starter JavaScript for disabling form submissions if there are invalid fields
-    (function () {
-        'use strict'
-
-        // Fetch all the forms we want to apply custom Bootstrap validation styles to
-        var forms = document.querySelectorAll('.validated-form')
-
-        // Loop over them and prevent submission
-        Array.from(forms)
-            .forEach(function (form) {
-                form.addEventListener('submit', function (event) {
-                    if (!form.checkValidity()) {
-                        event.preventDefault()
-                        event.stopPropagation()
-                    }
-
-                    form.classList.add('was-validated')
-                }, false)
-            })
-    })()
-</script>
