@@ -7,6 +7,7 @@ const ejsMate = require('ejs-mate');
 const {campSchema} = require('./schemas.js');
 const unsplashRoutes = require('./routes/unsplash'); // Import your Unsplash API routes
 const catchAsync = require('./Utilities/catchAsync');
+const Review = require('./models/review');
 
 const mongoose = require('mongoose');
 main().catch(err => console.log(err));
@@ -85,8 +86,13 @@ app.delete('/campgrounds/:id', catchAsync(async (req, res, next) => {//delete ca
     res.redirect('/campgrounds');
 }))
 
-app.post('/campgrounds/:id/review', catchAsync(async (err, req, res, next) => {
-    res.send('you made it')
+app.post('/campgrounds/:id/reviews', catchAsync(async (req, res, next) => {
+    const campground = await Campground.findById(req.params.id);
+    const review = new Review(req.body.review)
+    campground.reviews.push(review);
+    await review.save();
+    await campground.save();
+    res.redirect(`/campgrounds/${campground._id}`);
 }))
 
 
