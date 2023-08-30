@@ -4,7 +4,7 @@ const Campground = require('./models/campground')
 const ExpressError = require('./Utilities/ExpressError');
 const methodOverride = require('method-override');
 const ejsMate = require('ejs-mate');
-const {campSchema} = require('./schemas.js');
+const {campSchema, reviewSchema} = require('./schemas.js');
 const unsplashRoutes = require('./routes/unsplash'); // Import your Unsplash API routes
 const catchAsync = require('./Utilities/catchAsync');
 const Review = require('./models/review');
@@ -28,6 +28,16 @@ app.use(methodOverride('_method')); //app.use allow us to run code on every sing
 
 const validateCampground = (req, res, next) => { //middleware function
         const {error} = campSchema.validate(req.body) //2. validate req.body
+        if (error){
+            const msg = error.details.map(el => el.message).join(',')
+            throw new ExpressError(msg, 400)
+        } else {
+            next();
+        }
+}
+
+const validateReview = (req, res, next) => { //middleware for review 
+        const { error } = reviewSchema.validate(req.body)
         if (error){
             const msg = error.details.map(el => el.message).join(',')
             throw new ExpressError(msg, 400)
@@ -62,7 +72,7 @@ app.post('/campgrounds', validateCampground, catchAsync(async (req, res, next) =
 
 
 app.get('/campgrounds/:id', catchAsync(async (req, res, next) => { //show detail on campround
-        const campground = await Campground.findById(req.params.id) //find by ID
+        const campground = await Campground.findById(req.params.id).populate('reviews') //find by ID
         res.render('campgrounds/show', { campground });
 }))
 
@@ -86,7 +96,7 @@ app.delete('/campgrounds/:id', catchAsync(async (req, res, next) => {//delete ca
     res.redirect('/campgrounds');
 }))
 
-app.post('/campgrounds/:id/reviews', catchAsync(async (req, res, next) => {
+app.post('/campgrounds/:id/reviews', validateReview, catchAsync(async (req, res, next) => {
     const campground = await Campground.findById(req.params.id);
     const review = new Review(req.body.review)
     campground.reviews.push(review);
