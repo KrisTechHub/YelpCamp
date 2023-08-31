@@ -3,11 +3,14 @@ const path = require('path');
 const ExpressError = require('./Utilities/ExpressError');
 const methodOverride = require('method-override');
 const ejsMate = require('ejs-mate');
-const catchAsync = require('./Utilities/catchAsync');
+
+
+//ROUTES
 const campgrounds = require('./routes/campgrounds');//campground router
 const reviews = require('./routes/reviews');//campground router
 
 
+//MONGOSH  CONNECTION
 const mongoose = require('mongoose');
 main().catch(err => console.log(err));
 async function main() {
@@ -22,13 +25,14 @@ app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
 app.use(express.urlencoded({ extended : true }));
 app.use(methodOverride('_method')); //app.use allow us to run code on every single request
+app.use(express.static('public'))//use the static pages, then the directory
+
+//USE ROUTES
 app.use('/campgrounds', campgrounds); //campground router
-app.use('/reviews', reviews); //campground router
+app.use('/campgrounds/:id/reviews', reviews); //campground router
 
 
-
-
-
+//HOME ROUTE
 app.get('/', (req, res) => {
     res.render('home')
 })
