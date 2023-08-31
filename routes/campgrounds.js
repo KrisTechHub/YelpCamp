@@ -1,11 +1,25 @@
 const express = require('express');
-const router = require('express-router');
-const catchAsync = require('./Utilities/catchAsync');
-const ExpressError = require('./Utilities/ExpressError');
-const Campground = require('./models/campground') //campground model
+const router = express.Router();
+const catchAsync = require('../Utilities/catchAsync');
+const ExpressError = require('../Utilities/ExpressError');
+const Campground = require('../models/campground') //campground model
+const { campSchema } = require('../schemas.js');
 
 
-app.get('/', async (req, res) => { //all campgrounds
+
+const validateCampground = (req, res, next) => { //middleware function
+        const {error} = campSchema.validate(req.body) //2. validate req.body
+        if (error){
+            const msg = error.details.map(el => el.message).join(',')
+            throw new ExpressError(msg, 400)
+        } else {
+            next();
+        }
+}
+
+
+
+router.get('/', async (req, res) => { //all campgrounds
     const campgrounds = await Campground.find({});
     res.render('campgrounds/index', { campgrounds})
 });
