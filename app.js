@@ -25,7 +25,7 @@ const app = express();
 app.engine('ejs', ejsMate)
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
-app.use(express.urlencoded({ extended : true }));
+app.use(express.urlencoded({ extended : true })); //parse the req.body
 app.use(methodOverride('_method')); //app.use allow us to run code on every single request
 app.use(express.static(path.join(__dirname, 'public')))//use the static pages, then the directory
 
@@ -47,6 +47,7 @@ app.use(flash());
 //do this before the route handlers
 app.use((req, res, next) => {
     res.locals.success = req.flash('success');
+    res.locals.error = req.flash('error');
     next();
 })
 

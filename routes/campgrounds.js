@@ -41,12 +41,20 @@ router.post('/', validateCampground, catchAsync(async (req, res, next) => { //ad
 
 router.get('/:id', catchAsync(async (req, res, next) => { //show detail on campround
         const campground = await Campground.findById(req.params.id).populate('reviews') //find by ID
+        if (!campground) { //error flash 
+            req.flash('error', 'Unable to find that campground!')
+            res.redirect('/campgrounds');
+        }
         res.render('campgrounds/show', { campground });
 }));
 
 
 router.get('/:id/edit', catchAsync(async (req, res, next) => { //edit campground
     const campground = await Campground.findById(req.params.id) //find by ID
+    if (!campground) { //error flash 
+            req.flash('error', 'Unable to find that campground!')
+            res.redirect('/campgrounds');
+        }
     res.render('campgrounds/edit', { campground });
 }));
 
