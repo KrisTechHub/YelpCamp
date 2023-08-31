@@ -29,6 +29,7 @@ app.use(express.urlencoded({ extended : true }));
 app.use(methodOverride('_method')); //app.use allow us to run code on every single request
 app.use(express.static(path.join(__dirname, 'public')))//use the static pages, then the directory
 
+
 const sessionConfig = {
     secret: 'thisshouldbeabettersecret!',
     resave: false,
@@ -40,6 +41,14 @@ const sessionConfig = {
     }
 }
 app.use(session(sessionConfig))
+app.use(flash());
+
+
+//do this before the route handlers
+app.use((req, res, next) => {
+    res.locals.success = req.flash('success');
+    next();
+})
 
 //USE ROUTES
 app.use('/campgrounds', campgrounds); //campground router
@@ -49,7 +58,7 @@ app.use('/campgrounds/:id/reviews', reviews); //campground router
 //HOME ROUTE
 app.get('/', (req, res) => {
     res.render('home')
-})
+});
 
 
 
