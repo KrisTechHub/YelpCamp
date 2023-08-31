@@ -3,6 +3,7 @@ const path = require('path');
 const ExpressError = require('./Utilities/ExpressError');
 const methodOverride = require('method-override');
 const ejsMate = require('ejs-mate');
+const session = require('express-session');
 
 
 //ROUTES
@@ -26,6 +27,14 @@ app.set('views', path.join(__dirname, 'views'));
 app.use(express.urlencoded({ extended : true }));
 app.use(methodOverride('_method')); //app.use allow us to run code on every single request
 app.use(express.static(path.join(__dirname, 'public')))//use the static pages, then the directory
+
+const sessionConfig = {
+    secret: 'thisshouldbeabettersecret!',
+    resave: false,
+    saveUninitialized: true,
+
+}
+app.use(session(sessionConfig))
 
 //USE ROUTES
 app.use('/campgrounds', campgrounds); //campground router
