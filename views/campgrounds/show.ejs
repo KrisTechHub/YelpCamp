@@ -1,69 +1,87 @@
 <% layout('layouts/boilerplate') %>
 
-<div class="row">
-    <div class="col-6">
-        <div class="card mb-3">
-            <img src="<%= campground.image %>" class="card-img-top" alt="...">
-            <div class="card-body">
-                <h5 class="card-title"><%= campground.title %></h5>
-                <p class="card-text"><%= campground.description %></p>
-            </div>
-            <ul class="list-group list-group-flush">
-                <li class="list-group-item text-muted"><%= campground.location %></li>
-                <li class="list-group-item">€<%= campground.price %>/night</li>
-            </ul>
-            <div class="card-body">
-                <a class="card-link btn btn-info" href="/campgrounds/<%= campground._id %>/edit">Edit</a>
-                <form class="d-inline" action="/campgrounds/<%= campground._id %>?_method=DELETE" method="POST">
-                    <button class="btn btn-danger">Delete</button>
-                </form>
-                <a class="btn btn-info card-link" href="/campgrounds">All Campgrounds</a>
-            </div>
+    <div class="row">
+        <div class="col-6">
+            <div class="card mb-3">
+                <img src="<%= campground.image %>" class="card-img-top" alt="...">
 
 
-            <div class="card-footer text-muted">
-                2 days ago
+                <div class="card-body">
+                    <h5 class="card-title">
+                        <%= campground.title %>
+                    </h5>
+                    <p class="card-text">
+                        <%= campground.description %>
+                    </p>
+                </div>
+
+
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item text-muted">
+                        <%= campground.location %>
+                    </li>
+                    <li class="list-group-item">€<%= campground.price %>/night</li>
+                    <li class="list-group-item"><i>Uploaded by: <%= campground.author.username %></i></li>
+                </ul>
+
+                <!-- CONDITIONAL for not showing delete/update button when user is not the author -->
+                <% if (currentUser && campground.author.equals(currentUser._id)) {%>
+                    <div class="card-body">
+                        <a class="card-link btn btn-info" href="/campgrounds/<%= campground._id %>/edit">Edit</a>
+                        <form class="d-inline" action="/campgrounds/<%= campground._id %>?_method=DELETE" method="POST">
+                            <button class="btn btn-danger">Delete</button>
+                        </form>
+                    </div>
+                    <% } %>
+
+
+                        <div class="card-footer text-muted">
+                            2 days ago
+                            </i>
+                        </div>
             </div>
         </div>
-    </div>
 
-    <div class="col-6">
-                    
-        <h5>Reviews</h5>
-        <% for ( let review of campground.reviews) { %>
-            <div class="card mb-3">
-                <div class="card-body">
-                    <h6 class="card-title"><i>Rating:</i>
-                        <%= review.rating %>
-                    </h6>
-                    <p class="card-text">
-                        <%= review.body %>
-                    </p>
+        <div class="col-6">
 
-                    <form action="/campgrounds/<%= campground._id %>/reviews/<%= review._id %>?_method=DELETE" method="POST">
-                        <button class="btn btn-sm btn-danger">Delete</button>
+            <h5>Reviews</h5>
+            <% for ( let review of campground.reviews) { %>
+                <div class="card mb-3">
+                    <div class="card-body">
+                        <h6 class="card-title"><i>Rating:</i>
+                            <%= review.rating %>
+                        </h6>
+                        <p class="card-text">
+                            <%= review.body %>
+                        </p>
+
+                        <form action="/campgrounds/<%= campground._id %>/reviews/<%= review._id %>?_method=DELETE"
+                            method="POST">
+                            <button class="btn btn-sm btn-danger">Delete</button>
+                        </form>
+                    </div>
+                </div>
+                <% } %>
+
+
+                    <h5><i>Leave a review</i></h5>
+                    <form action="/campgrounds/<%= campground._id %>/reviews" method="POST" class="mb-3 validated-form"
+                        novalidate>
+                        <div class="mb-3">
+                            <label class="form-label" for="rating"><i>Rating</i></label>
+                            <input class="form-range" type="range" id="rating" min="1" max="5" name="review[rating]">
+
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label" for="body"><i>Review</i></label>
+                            <textarea class="form-control" name="review[body]" id="body" cols="30" rows="4"
+                                required></textarea>
+                            <div class="valid-feedback">
+                                Looks good!
+                            </div>
+                        </div>
+
+                        <button class="btn btn-success" type="submit">Submit</button>
                     </form>
-                </div>
-            </div>
-        <% } %>
-
-
-        <h5><i>Leave a review</i></h5>
-        <form action="/campgrounds/<%= campground._id %>/reviews" method="POST" class="mb-3 validated-form" novalidate>
-            <div class="mb-3">
-                <label class="form-label" for="rating"><i>Rating</i></label>
-                <input class="form-range" type="range" id="rating" min="1" max="5" name="review[rating]">
-        
-            </div>
-            <div class="mb-3">
-                <label class="form-label" for="body"><i>Review</i></label>
-                <textarea class="form-control" name="review[body]" id="body" cols="30" rows="4" required></textarea>
-                <div class="valid-feedback">
-                    Looks good!
-                </div>
-            </div>
-        
-            <button class="btn btn-success" type="submit">Submit</button>
-        </form>
+        </div>
     </div>
-</div>    
