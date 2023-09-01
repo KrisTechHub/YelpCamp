@@ -34,4 +34,16 @@ router.post('/login', passport.authenticate('local', { failureFlash: true, failu
     res.redirect('/campgrounds');
 })
 
+
+//LOGOUT
+router.get('/logout', (req, res) => {
+    req.logout(function (err) {
+        if (err) {
+            return next(err);
+        }
+        req.flash('success', 'Successfully logged out!')
+        res.redirect('/campgrounds');
+    });
+})
+
 module.exports = router;

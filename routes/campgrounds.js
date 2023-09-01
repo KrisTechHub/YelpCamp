@@ -39,7 +39,7 @@ router.post('/', isLoggedIn, validateCampground, catchAsync(async (req, res, nex
 }));
 
 
-router.get('/:id', isLoggedIn, catchAsync(async (req, res, next) => { //show detail on campround
+router.get('/:id', catchAsync(async (req, res, next) => { //show detail on campround
     const campground = await Campground.findById(req.params.id).populate('reviews') //find by ID
     if (!campground) { //error flash 
         req.flash('error', 'Unable to find that campground!')
@@ -59,7 +59,7 @@ router.get('/:id/edit', isLoggedIn, catchAsync(async (req, res, next) => { //edi
 }));
 
 
-router.put('/:id', validateCampground, catchAsync(async (req, res, next) => { //show after edit campground
+router.put('/:id', isLoggedIn, validateCampground, catchAsync(async (req, res, next) => { //show after edit campground
     const { id } = req.params; //find ID
     const campground = await Campground.findByIdAndUpdate(id, { ...req.body.campground }) //find by ID
     req.flash('success', 'Great! Successfully updated your campground!');
