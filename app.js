@@ -11,8 +11,9 @@ const User = require('./models/user');
 
 
 //ROUTES
-const campgrounds = require('./routes/campgrounds');//campground router
-const reviews = require('./routes/reviews');//campground router
+const userRoutes = require('./routes/users');
+const campgroundRoutes = require('./routes/campgrounds');//campground router
+const reviewRoutes = require('./routes/reviews');//campground router
 
 
 //MONGOSH  CONNECTION
@@ -78,8 +79,10 @@ app.get('/fake', async (req, res) => {
 })
 
 //USE ROUTES
-app.use('/campgrounds', campgrounds); //campground router
-app.use('/campgrounds/:id/reviews', reviews); //campground router
+app.use('/campgrounds', campgroundRoutes); //campground router
+app.use('/campgrounds/:id/reviews', reviewRoutes); //campground router
+app.use('/', userRoutes); //campground router
+
 
 
 //HOME ROUTE
