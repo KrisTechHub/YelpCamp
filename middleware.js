@@ -1,8 +1,16 @@
 module.exports.isLoggedIn = (req, res, next) => {
-    console.log(req.user);
     if (!req.isAuthenticated()) {
+        req.session.returnTo = req.originalUrl //store the url the user is rquesting
         req.flash('error', 'You must  be signed in to access requested page!');
         return res.redirect('/login');
+    }
+    next();
+};
+
+
+module.exports.storeReturnTo = (req, res, next) => { //middleware to use returnTo function
+    if (req.session.returnTo) {
+        res.locals.returnTo = req.session.returnTo;
     }
     next();
 }

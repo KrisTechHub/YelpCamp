@@ -3,6 +3,7 @@ const router = express.Router();
 const catchAsync = require('../utilities/catchAsync');
 const User = require('../models/user');
 const passport = require('passport');
+const { storeReturnTo } = require('../middleware');
 
 
 
@@ -37,9 +38,12 @@ router.get('/login', (req, res) => {
     res.render('users/login')
 })
 
-router.post('/login', passport.authenticate('local', { failureFlash: true, failureRedirect: '/login' }), (req, res) => {
+router.post('/login', storeReturnTo, passport.authenticate('local', { failureFlash: true, failureRedirect: '/login' }), (req, res) => {
+    // passport.authenticate logs the user in and clears req.session
     req.flash('success', 'Welcome back to YelpCamp');
-    res.redirect('/campgrounds');
+    const redirectUrl = res.locals.returnTo || '/campgrounds'; //return to page where user want to access before logging in
+    delete req.session.returnTo; //delete after returning
+    res.redirect(redirectUrl);
 });
 //************************ */
 

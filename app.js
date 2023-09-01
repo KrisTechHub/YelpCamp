@@ -64,6 +64,7 @@ passport.deserializeUser(User.deserializeUser()); //how to get a user out of the
 
 //do this before the route handlers
 app.use((req, res, next) => {
+    console.log(req.session);
     res.locals.currentUser = req.user //check if logged in
     res.locals.success = req.flash('success');
     res.locals.error = req.flash('error');
