@@ -24,11 +24,13 @@ router.get('/', async (req, res) => { //all campgrounds
     const campgrounds = await Campground.find({});
     res.render('campgrounds/index', { campgrounds })
 });
+//************************ */
 
 
 router.get('/new', isLoggedIn, (req, res) => {//add new campground
     res.render('campgrounds/new');
 });
+//************************ */
 
 
 router.post('/', isLoggedIn, validateCampground, catchAsync(async (req, res, next) => { //add new campground
@@ -37,6 +39,7 @@ router.post('/', isLoggedIn, validateCampground, catchAsync(async (req, res, nex
     req.flash('success', 'Successfully made a new campground!');
     res.redirect(`/campgrounds/${campground._id}`)
 }));
+//************************ */
 
 
 router.get('/:id', catchAsync(async (req, res, next) => { //show detail on campround
@@ -47,6 +50,7 @@ router.get('/:id', catchAsync(async (req, res, next) => { //show detail on campr
     }
     res.render('campgrounds/show', { campground });
 }));
+//************************ */
 
 
 router.get('/:id/edit', isLoggedIn, catchAsync(async (req, res, next) => { //edit campground
@@ -57,6 +61,7 @@ router.get('/:id/edit', isLoggedIn, catchAsync(async (req, res, next) => { //edi
     }
     res.render('campgrounds/edit', { campground });
 }));
+//************************ */
 
 
 router.put('/:id', isLoggedIn, validateCampground, catchAsync(async (req, res, next) => { //show after edit campground
@@ -65,6 +70,7 @@ router.put('/:id', isLoggedIn, validateCampground, catchAsync(async (req, res, n
     req.flash('success', 'Great! Successfully updated your campground!');
     res.redirect(`/campgrounds/${campground._id}`)
 }));
+//************************ */
 
 
 router.delete('/:id', isLoggedIn, catchAsync(async (req, res, next) => {//delete campground
@@ -73,5 +79,6 @@ router.delete('/:id', isLoggedIn, catchAsync(async (req, res, next) => {//delete
     req.flash('success', 'Hollaaa! Successfully deleted your campground!');
     res.redirect('/campgrounds');
 }));
+//************************ */
 
 module.exports = router;
