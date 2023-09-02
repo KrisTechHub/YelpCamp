@@ -2,7 +2,6 @@ const express = require('express');
 const router = express.Router();
 const catchAsync = require('../utilities/catchAsync');
 const Campground = require('../models/campground') //campground model
-const User = require('../models/user');
 const { isLoggedIn, isAuthor, validateCampground } = require('../middleware');
 
 
@@ -45,8 +44,6 @@ router.get('/:id', catchAsync(async (req, res, next) => {
             path: 'author'
         }
     }).populate('author');
-
-    console.log(campground);
     if (!campground) { //error flash 
         req.flash('error', 'Unable to find that campground!')
         return res.redirect('/campgrounds');
