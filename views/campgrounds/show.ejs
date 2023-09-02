@@ -43,7 +43,6 @@
         </div>
 
         <div class="col-6">
-
             <h5>Reviews</h5>
             <% for ( let review of campground.reviews) { %>
                 <div class="card mb-3">
@@ -59,29 +58,39 @@
                             method="POST">
                             <button class="btn btn-sm btn-danger">Delete</button>
                         </form>
+
                     </div>
                 </div>
                 <% } %>
 
+                    <!-- only show this if not signed in -->
+                    <% if (!currentUser) { %>
+                        <h6><i>Please sign in to leave a review</i></h6>
+                        <% } %>
 
-                    <h5><i>Leave a review</i></h5>
-                    <form action="/campgrounds/<%= campground._id %>/reviews" method="POST" class="mb-3 validated-form"
-                        novalidate>
-                        <div class="mb-3">
-                            <label class="form-label" for="rating"><i>Rating</i></label>
-                            <input class="form-range" type="range" id="rating" min="1" max="5" name="review[rating]">
 
-                        </div>
-                        <div class="mb-3">
-                            <label class="form-label" for="body"><i>Review</i></label>
-                            <textarea class="form-control" name="review[body]" id="body" cols="30" rows="4"
-                                required></textarea>
-                            <div class="valid-feedback">
-                                Looks good!
-                            </div>
-                        </div>
+                            <!-- SHOW LEAVE A REVIEW ONLY IF YOU ARE SIGNED IN -->
+                            <% if (currentUser) { %>
+                                <h5><i>Leave a review</i></h5>
+                                <form action="/campgrounds/<%= campground._id %>/reviews" method="POST"
+                                    class="mb-3 validated-form" novalidate>
+                                    <div class="mb-3">
+                                        <label class="form-label" for="rating"><i>Rating</i></label>
+                                        <input class="form-range" type="range" id="rating" min="1" max="5"
+                                            name="review[rating]">
 
-                        <button class="btn btn-success" type="submit">Submit</button>
-                    </form>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label class="form-label" for="body"><i>Review</i></label>
+                                        <textarea class="form-control" name="review[body]" id="body" cols="30" rows="4"
+                                            required></textarea>
+                                        <div class="valid-feedback">
+                                            Looks good!
+                                        </div>
+                                    </div>
+
+                                    <button class="btn btn-success" type="submit">Submit</button>
+                                </form>
+                                <% } %>
         </div>
     </div>
