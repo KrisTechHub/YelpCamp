@@ -49,7 +49,22 @@ module.exports.isAuthor = async (req, res, next) => {
     //only update if the user is the author
     if (!campground.author.equals(req.user._id)) {
         req.flash('error', 'You are not auhorized to update this campground. Please contact the author for permission!')
-        return res.redirect(`/campgrounds/${campground._id}`) //use RETURN for this to work
+        return res.redirect(`/campgrounds/${id}`) //use RETURN for this to work
+    }
+    next();
+};
+//************************ */
+
+
+
+//middleware function for signed in user is author or not on review
+module.exports.isReviewAuthor = async (req, res, next) => {
+    const { reviewId } = req.params; //find ID
+    const review = await Review.findById(reviewId); ///select the ID
+    //only update if the user is the author
+    if (!review.author.equals(req.user._id)) {
+        req.flash('error', 'You are not auhorized to update this campground. Please contact the author for permission!')
+        return res.redirect(`/campgrounds/${id}`) //use RETURN for this to work
     }
     next();
 };
