@@ -1,6 +1,7 @@
 const { campSchema, reviewSchema } = require('./schemas.js');
 const ExpressError = require('./Utilities/ExpressError');
 const Campground = require('./models/campground') //campground model
+const Review = require('./models/review');
 
 
 
@@ -59,7 +60,7 @@ module.exports.isAuthor = async (req, res, next) => {
 
 //middleware function for signed in user is author or not on review
 module.exports.isReviewAuthor = async (req, res, next) => {
-    const { reviewId } = req.params; //find ID
+    const { id, reviewId } = req.params; //find ID
     const review = await Review.findById(reviewId); ///select the ID
     //only update if the user is the author
     if (!review.author.equals(req.user._id)) {
