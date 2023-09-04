@@ -1,5 +1,6 @@
 const express = require('express');
 const router = express.Router();
+const campgrounds = require('../controllers/campgrounds')//where the controller are
 const catchAsync = require('../utilities/catchAsync');
 const Campground = require('../models/campground') //campground model
 const { isLoggedIn, isAuthor, validateCampground } = require('../middleware');
@@ -7,11 +8,9 @@ const { isLoggedIn, isAuthor, validateCampground } = require('../middleware');
 
 
 
+
 //list all campgrounds
-router.get('/', async (req, res) => {
-    const campgrounds = await Campground.find({});
-    res.render('campgrounds/index', { campgrounds })
-});
+router.get('/', catchAsync(campgrounds)); //campground is the controller
 //************************ */
 
 
