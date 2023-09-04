@@ -18,15 +18,7 @@ const Campground = require('../models/campground') //campground model
 
 //ROUTERS
 router.post('/', isLoggedIn, validateReview, catchAsync(reviews.createReview))
-
-
-router.delete('/:reviewId', isLoggedIn, isReviewAuthor, catchAsync(async (req, res) => {
-    const { id, reviewId } = req.params; //find ID
-    await Campground.findByIdAndUpdate(id, { $pull: { reviews: reviewId } }); //remove from array mongo, $pull anything on that Id in reviews
-    await Review.findByIdAndDelete(reviewId)
-    req.flash('success', 'Hollaaa! Successfully deleted your review!');
-    res.redirect(`/campgrounds/${id}`);
-}))
+router.delete('/:reviewId', isLoggedIn, isReviewAuthor, catchAsync(reviews.deleteReview))
 
 
 module.exports = router;
