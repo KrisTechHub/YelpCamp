@@ -9,15 +9,17 @@ const users = require('../controllers/users');
 
 
 //REGISTER
-router.get('/register', users.renderRegister);
-router.post('/register', catchAsync(users.register));
+router.route('/register')
+    .get(users.renderRegister)
+    .post(catchAsync(users.register));
 //************************ */
 
 
 
 //LOGIN
-router.get('/login', users.renderLogin)
-router.post('/login', storeReturnTo, passport.authenticate('local', { failureFlash: true, failureRedirect: '/login' }), users.login);
+router.route('/login')
+    .get(users.renderLogin)
+    .post(storeReturnTo, passport.authenticate('local', { failureFlash: true, failureRedirect: '/login' }), users.login);
 //************************ */
 
 
