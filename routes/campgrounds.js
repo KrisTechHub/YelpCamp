@@ -5,46 +5,29 @@ const catchAsync = require('../utilities/catchAsync');
 const Campground = require('../models/campground') //campground model
 const { isLoggedIn, isAuthor, validateCampground } = require('../middleware');
 
-
-
-
-
-//list all campgrounds
-router.get('/', catchAsync(campgrounds.index)); //campground is the controller
+//restructuring routes (grouping routes with same path)
+router.route('/')
+    .get(catchAsync(campgrounds.index)) //list all campgrounds (campground is the controller)
+    .post(isLoggedIn, validateCampground, catchAsync(campgrounds.crateCampground));//save newly create campground to database
 //************************ */
 
 
 //add new campground
-router.get('/new', isLoggedIn, campgrounds.renderNewForm);
+router.get('/new', isLoggedIn, campgrounds.renderNewForm)
 //************************ */
 
 
-//save newly added campground
-router.post('/', isLoggedIn, validateCampground, catchAsync(campgrounds.crateCampground));
-//************************ */
-
-
-//show detail on campround
-router.get('/:id', catchAsync(campgrounds.showCampground));
+// routes with ('/:id') route
+router.route('/:id')
+    .get(catchAsync(campgrounds.showCampground)) //show detail on campround
+    .put(isLoggedIn, isAuthor, validateCampground, catchAsync(campgrounds.updateCampground)) //SAVE edit campground
+    .delete(isLoggedIn, isAuthor, catchAsync(campgrounds.deleteCampground)); //delete a campground
 //************************ */
 
 
 //EDIT campground
 router.get('/:id/edit', isLoggedIn, isAuthor, catchAsync(campgrounds.renderEditForm));
 //************************ */
-
-
-
-//SAVE edit campground
-router.put('/:id', isLoggedIn, isAuthor, validateCampground, catchAsync(campgrounds.updateCampground));
-//************************ */
-
-
-
-//delete a campground
-router.delete('/:id', isLoggedIn, isAuthor, catchAsync(campgrounds.deleteCampground));
-//************************ */
-
 
 
 module.exports = router;
