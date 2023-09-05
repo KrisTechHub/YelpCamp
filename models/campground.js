@@ -2,15 +2,20 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 const Review = require('./review')
 
+const ImageSchema = new Schema({
+    url: String,
+    fileName: String
+});
+
+
+//replace url to make img look thumbnail in edit page
+ImageSchema.virtual('thumbnail').get(function () {
+    return this.url.replace('/upload', '/upload/w_200');
+});
 
 const CampGroundSchema = new Schema({
     title: String,
-    images: [
-        {
-            url: String,
-            fileName: String
-        }
-    ],
+    images: [ImageSchema],
     price: Number,
     description: String,
     location: String,
