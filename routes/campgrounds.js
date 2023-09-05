@@ -31,7 +31,7 @@ router.get('/new', isLoggedIn, campgrounds.renderNewForm)
 // routes with ('/:id') route
 router.route('/:id')
     .get(catchAsync(campgrounds.showCampground)) //show detail on campround
-    .put(isLoggedIn, isAuthor, validateCampground, catchAsync(campgrounds.updateCampground)) //SAVE edit campground
+    .put(isLoggedIn, isAuthor, upload.array('image'), validateCampground, catchAsync(campgrounds.updateCampground)) //SAVE edit campground
     .delete(isLoggedIn, isAuthor, catchAsync(campgrounds.deleteCampground)); //delete a campground
 //************************ */
 
