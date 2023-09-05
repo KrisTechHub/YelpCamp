@@ -12,7 +12,10 @@ const upload = multer({ dest: 'uploads/' })
 //restructuring routes (grouping routes with same path)
 router.route('/')
     .get(catchAsync(campgrounds.index)) //list all campgrounds (campground is the controller)
-    .post(isLoggedIn, validateCampground, catchAsync(campgrounds.crateCampground));//save newly create campground to database
+    // .post(isLoggedIn, validateCampground, catchAsync(campgrounds.crateCampground));//save newly create campground to database
+    .post(upload.single('image'), (req, res) => {
+        console.log(req.body, req.file);
+    })
 //************************ */
 
 
