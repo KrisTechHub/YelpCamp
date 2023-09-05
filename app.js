@@ -1,3 +1,10 @@
+//running dotenv when in development mode, and not on production
+if (process.env.NODE_ENV !== "production") { //enviroment variable thats usually dev or prod. 
+    require('dotenv').config();
+}
+
+console.log(process.env.SECRET);
+
 const express = require('express');
 const path = require('path');
 const ExpressError = require('./Utilities/ExpressError');
