@@ -3,7 +3,7 @@ if (process.env.NODE_ENV !== "production") { //enviroment variable thats usually
     require('dotenv').config();
 }
 
-console.log(process.env.SECRET);
+console.log(process.env.CLOUDINARY_CLOUD_NAME);
 
 const express = require('express');
 const path = require('path');
