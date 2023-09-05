@@ -68,10 +68,14 @@ module.exports.updateCampground = async (req, res) => {
     const campground = await Campground.findByIdAndUpdate(id, { ...req.body.campground }); ///select the ID
     const imgs = req.files.map(f => ({ url: f.path, fileName: f.filename }))
     campground.images.push(...imgs);
-    campground.save();
+    await campground.save();
+    if (req.body.deleteImages) { //if there are image to delete, update the specific campground
+        await campground.updateOne({ $pull: { images: { fileName: { $in: req.body.deleteImages } } } }) //pull from the images array all images with the filename of that image "in" the req.body.deleteImages (selected images for deletion), use $pull to remove from array of images
+    }
     req.flash('success', 'Great! Successfully updated your campground!');
     res.redirect(`/campgrounds/${campground._id}`);
 };//************************ */
+
 
 
 //delete a campground

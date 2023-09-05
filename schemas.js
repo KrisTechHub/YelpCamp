@@ -13,7 +13,8 @@ module.exports.campSchema = Joi.object({ //Validate data on the server side befo
             .required(),
         description: Joi.string()
             .required()
-    }).required()
+    }).required(),
+    deleteImages: Joi.array()
 });
 
 module.exports.reviewSchema = Joi.object({
