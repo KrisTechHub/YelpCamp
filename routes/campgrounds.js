@@ -5,9 +5,12 @@ const catchAsync = require('../utilities/catchAsync');
 const Campground = require('../models/campground') //campground model
 const { isLoggedIn, isAuthor, validateCampground } = require('../middleware');
 
+//require cloudinary storage to store uploaded images
+const { storage } = require('../cloudinary');
+
 //MULTER middleware to parse multipart/form-data for file uploads
 const multer = require('multer')
-const upload = multer({ dest: 'uploads/' })
+const upload = multer({ storage });//upload files to cloudinary storage
 
 //restructuring routes (grouping routes with same path)
 router.route('/')
@@ -15,6 +18,7 @@ router.route('/')
     // .post(isLoggedIn, validateCampground, catchAsync(campgrounds.crateCampground));//save newly create campground to database
     .post(upload.single('image'), (req, res) => {
         console.log(req.body, req.file);
+        res.send("You successfully uploaded your image for camping")
     })
 //************************ */
 
