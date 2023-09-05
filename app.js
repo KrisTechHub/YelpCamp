@@ -3,8 +3,6 @@ if (process.env.NODE_ENV !== "production") { //enviroment variable thats usually
     require('dotenv').config();
 }
 
-console.log(process.env.CLOUDINARY_CLOUD_NAME);
-
 const express = require('express');
 const path = require('path');
 const ExpressError = require('./Utilities/ExpressError');
@@ -113,6 +111,6 @@ app.use((err, req, res, next) => {
 })
 
 
-app.listen(3000, () => {
-    console.log('Serving on port 3000');
+app.listen(3005, () => {
+    console.log('Serving on port 3005');
 });

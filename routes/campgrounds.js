@@ -15,11 +15,11 @@ const upload = multer({ storage });//upload files to cloudinary storage
 //restructuring routes (grouping routes with same path)
 router.route('/')
     .get(catchAsync(campgrounds.index)) //list all campgrounds (campground is the controller)
-    // .post(isLoggedIn, validateCampground, catchAsync(campgrounds.crateCampground));//save newly create campground to database
-    .post(upload.single('image'), (req, res) => {
-        console.log(req.body, req.file);
-        res.send("You successfully uploaded your image for camping")
-    })
+    .post(isLoggedIn, upload.array('image'), validateCampground, catchAsync(campgrounds.createCampground))//save newly create campground to database
+// .post(upload.array('image'), (req, res) => {
+//     console.log(req.body, req.files);
+//     res.send("You successfully uploaded your image for camping")
+// })
 //************************ */
 
 

@@ -1,4 +1,5 @@
 const Campground = require('../models/campground') //campground model
+const { cloudinary } = require("../cloudinary");
 
 
 
@@ -19,8 +20,9 @@ module.exports.renderNewForm = (req, res) => {
 
 
 //save newly added campground to DB
-module.exports.crateCampground = async (req, res, next) => {
+module.exports.createCampground = async (req, res, next) => {
     const campground = new Campground(req.body.campground);
+    campground.images = req.files.map(f => ({ url: f.path, fileName: f.filename }));
     campground.author = req.user._id//assign current logged in user as the author to the newly created campground
     await campground.save();
     req.flash('success', 'Successfully made a new campground!');
