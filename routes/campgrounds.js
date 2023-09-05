@@ -5,6 +5,10 @@ const catchAsync = require('../utilities/catchAsync');
 const Campground = require('../models/campground') //campground model
 const { isLoggedIn, isAuthor, validateCampground } = require('../middleware');
 
+//MULTER middleware to parse multipart/form-data for file uploads
+const multer = require('multer')
+const upload = multer({ dest: 'uploads/' })
+
 //restructuring routes (grouping routes with same path)
 router.route('/')
     .get(catchAsync(campgrounds.index)) //list all campgrounds (campground is the controller)
