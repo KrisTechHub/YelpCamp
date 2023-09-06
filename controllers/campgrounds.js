@@ -24,16 +24,16 @@ module.exports.renderNewForm = (req, res) => {
 //save newly added campground to DB
 module.exports.createCampground = async (req, res, next) => {
     const geoData = await geocoder.forwardGeocode({ //call geocoder method
-        query: 'Enschede, Netherlands',
+        query: req.body.campground.location,
         limit: 1
     }).send() //send query after calling the function
-    console.log(geoData);
-    const campground = new Campground(req.body.campground);
-    campground.images = req.files.map(f => ({ url: f.path, fileName: f.filename }));
-    campground.author = req.user._id//assign current logged in user as the author to the newly created campground
-    await campground.save();
-    req.flash('success', 'Successfully made a new campground!');
-    res.redirect(`/campgrounds/${campground._id}`)
+    res.send(geoData.body.features[0].geometry.coordinates);
+    // const campground = new Campground(req.body.campground);
+    // campground.images = req.files.map(f => ({ url: f.path, fileName: f.filename }));
+    // campground.author = req.user._id//assign current logged in user as the author to the newly created campground
+    // await campground.save();
+    // req.flash('success', 'Successfully made a new campground!');
+    // res.redirect(`/campgrounds/${campground._id}`)
 };//************************
 
 
