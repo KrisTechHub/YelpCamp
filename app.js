@@ -14,6 +14,9 @@ const passport = require('passport');
 const LocalStrategy = require('passport-local');
 const User = require('./models/user');
 
+const mongoSanitize = require('express-mongo-sanitize');
+
+
 
 //ROUTES
 const userRoutes = require('./routes/users');
@@ -37,6 +40,9 @@ app.set('views', path.join(__dirname, 'views'));
 app.use(express.urlencoded({ extended: true })); //parse the req.body
 app.use(methodOverride('_method')); //app.use allow us to run code on every single request
 app.use(express.static(path.join(__dirname, 'public')))//use the static pages, then the directory
+app.use(mongoSanitize({
+    replaceWith: '_'
+}))
 
 
 
@@ -69,6 +75,7 @@ passport.deserializeUser(User.deserializeUser()); //how to get a user out of the
 
 //do this before the route handlers
 app.use((req, res, next) => {
+    console.log(req.query);
     res.locals.currentUser = req.user //check if logged in
     res.locals.success = req.flash('success');
     res.locals.error = req.flash('error');
