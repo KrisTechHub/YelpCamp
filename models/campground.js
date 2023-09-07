@@ -8,10 +8,12 @@ const ImageSchema = new Schema({
 });
 
 
-//replace url to make img look thumbnail in edit page
+//VIRTUAL PROPERTY TO replace url to make img look thumbnail in edit page
 ImageSchema.virtual('thumbnail').get(function () {
     return this.url.replace('/upload', '/upload/w_200');
 });
+
+const opts = { toJSON: { virtuals: true} }; //use this to include the new virtual pop up to properties
 
 const CampGroundSchema = new Schema({
     title: String,
@@ -40,6 +42,15 @@ const CampGroundSchema = new Schema({
             ref: 'Review'
         }
     ]
+}, opts);
+
+//VIRTUAL PROPERTY for popup
+CampGroundSchema.virtual('properties.popUpMarkup').get(function () {
+    return `
+ 
+    <a href="/campgrounds/${this._id}"><strong>${this.title}</strong></a>
+    <p>${this.description.substring(0,80)}...</p>
+    `
 });
 
 // query middleware for delete reviews when campground  is deleted

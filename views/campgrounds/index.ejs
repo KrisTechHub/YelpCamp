@@ -37,3 +37,8 @@
             </div>
         </div>
         <% } %>
+    <script>
+        const mapToken = '<%-process.env.MAPBOX_TOKEN%>' //do this so ejs will read this first
+        const campgrounds = {features: <%-JSON.stringify(campgrounds) %> }
+    </script>
+    <script src="/javascripts/clusterMap.js"></script>
