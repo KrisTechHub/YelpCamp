@@ -1,4 +1,6 @@
-const Joi = require('joi');
+const BaseJoi = require('joi');
+const sanitizeHtml = require('sanitize-html');
+
 
 const extension = (joi) => ({
     type: 'string',
@@ -22,7 +24,6 @@ const extension = (joi) => ({
 
 const Joi = BaseJoi.extend(extension)
 
-
 module.exports.campSchema = Joi.object({ //Validate data on the server side before we post it to mongoose database
     campground: Joi.object({ //1. define schema
         title: Joi.string()
@@ -38,6 +39,7 @@ module.exports.campSchema = Joi.object({ //Validate data on the server side befo
             .escapeHTML(),
         description: Joi.string()
             .required()
+            .escapeHTML(),
     }).required(),
     deleteImages: Joi.array()
 });
