@@ -2,7 +2,7 @@
 
     <div class="row">
         <h1 class="text-center">Update Campground Details</h1>
-        <div class="col-6 offset-3">
+        <div class="col-md-6 offset-md-3">
 
             <form action="/campgrounds/<%= campground._id %>?_method=PUT" method="POST" novalidate
                 class="validated-form" enctype="multipart/form-data">
@@ -57,11 +57,14 @@
                         <% }) %>
                 </div>
 
-                <div class="mb-3">
+                <div class="mb-3 d-grid gap-2">
                     <button class="btn btn-info">Update Campground</button>
                 </div>
             </form>
+            
+            <div class="d-grid gap-2">
+                <a class="btn btn-info" href="/campgrounds/<%= campground._id %>">Back to camground</a>
+            </div>
 
-            <a class="btn btn-info" href="/campgrounds/<%= campground._id %>">Back to camground</a>
         </div>
     </div>
