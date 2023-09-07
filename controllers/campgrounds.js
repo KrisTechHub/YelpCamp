@@ -27,13 +27,14 @@ module.exports.createCampground = async (req, res, next) => {
         query: req.body.campground.location,
         limit: 1
     }).send() //send query after calling the function
-    res.send(geoData.body.features[0].geometry.coordinates);
-    // const campground = new Campground(req.body.campground);
-    // campground.images = req.files.map(f => ({ url: f.path, fileName: f.filename }));
-    // campground.author = req.user._id//assign current logged in user as the author to the newly created campground
-    // await campground.save();
-    // req.flash('success', 'Successfully made a new campground!');
-    // res.redirect(`/campgrounds/${campground._id}`)
+    const campground = new Campground(req.body.campground); //make a campground from all data in req.body
+    campground.geometry = geoData.body.features[0].geometry;//then add geometry coming from geocoding API
+    campground.images = req.files.map(f => ({ url: f.path, fileName: f.filename }));//then add the file URLs from cloudinary
+    campground.author = req.user._id// then assign current logged in user as the author to the newly created campground
+    await campground.save();//then save
+    console.log(campground);
+    req.flash('success', 'Successfully made a new campground!');
+    res.redirect(`/campgrounds/${campground._id}`)
 };//************************
 
 
