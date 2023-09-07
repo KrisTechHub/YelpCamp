@@ -47,11 +47,12 @@ app.use(mongoSanitize({
 
 
 const sessionConfig = {
+    name: 'session',
     secret: 'thisshouldbeabettersecret!',
     resave: false,
     saveUninitialized: true,
     cookie: {
-        httpOnly: true,
+        httpOnly: true,//says that our cookies that are set through the session, are only accessible over HTTP, they're not accessible through JavaScript.
         expires: Date.now() + 1000 * 60 * 60 * 24 * 7,
         maxAge: 1000 * 60 * 60 * 24 * 7
     }
