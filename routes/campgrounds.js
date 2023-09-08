@@ -1,8 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const campgrounds = require('../controllers/campgrounds')//where the controller are
-const catchAsync = require('../utilities/catchAsync');
-const Campground = require('../models/campground') //campground model
+const catchAsync = require('../utils/catchAsync');
 const { isLoggedIn, isAuthor, validateCampground } = require('../middleware');
 
 //require cloudinary storage to store uploaded images

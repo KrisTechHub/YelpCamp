@@ -6,8 +6,8 @@ const reviews = require('../controllers/reviews');
 
 
 //UTILITIES
-const ExpressError = require('../utilities/ExpressError');
-const catchAsync = require('../utilities/catchAsync');
+const ExpressError = require('../utils/ExpressError');
+const catchAsync = require('../utils/catchAsync');
 
 
 //MODELS
