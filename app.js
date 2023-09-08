@@ -9,6 +9,7 @@ const ExpressError = require('./Utilities/ExpressError');
 const methodOverride = require('method-override');
 const ejsMate = require('ejs-mate');
 const session = require('express-session');
+const MongoStore = require('connect-mongo');
 const flash = require('connect-flash');
 const passport = require('passport');
 const LocalStrategy = require('passport-local');
@@ -28,7 +29,7 @@ const reviewRoutes = require('./routes/reviews');//campground router
 //mongodb://127.0.0.1:27017/YelpCamp
 //MONGOSH  CONNECTION
 const mongoose = require('mongoose');
-const dbUrl = process.env.DB_URL
+const dbUrl = 'mongodb://127.0.0.1:27017/YelpCamp';
 main().catch(err => console.log(err));
 async function main() {
     await mongoose.connect(dbUrl); // use `await mongoose.connect('mongodb://user:password@127.0.0.1:27017/test');` if your database has auth enabled
@@ -48,6 +49,17 @@ app.use(mongoSanitize({
 }))
 
 
+const store = MongoStore.create({
+    mongoUrl: dbUrl,
+    touchAfter: 24 * 60 * 60,
+    crypto: {
+        secret: 'thisshouldbeabettersecret!'
+    }
+});
+
+store.on("error", function(e){
+    console.log("session store error");
+})
 
 const sessionConfig = {
     name: 'session',
