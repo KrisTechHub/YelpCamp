@@ -25,11 +25,13 @@ const campgroundRoutes = require('./routes/campgrounds');//campground router
 const reviewRoutes = require('./routes/reviews');//campground router
 
 
+//mongodb://127.0.0.1:27017/YelpCamp
 //MONGOSH  CONNECTION
 const mongoose = require('mongoose');
+const dbUrl = process.env.DB_URL
 main().catch(err => console.log(err));
 async function main() {
-    await mongoose.connect('mongodb://127.0.0.1:27017/YelpCamp'); // use `await mongoose.connect('mongodb://user:password@127.0.0.1:27017/test');` if your database has auth enabled
+    await mongoose.connect(dbUrl); // use `await mongoose.connect('mongodb://user:password@127.0.0.1:27017/test');` if your database has auth enabled
     console.log("connected to mongo");
 }
 
