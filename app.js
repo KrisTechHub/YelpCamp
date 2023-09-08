@@ -29,7 +29,7 @@ const reviewRoutes = require('./routes/reviews');//campground router
 //mongodb://127.0.0.1:27017/YelpCamp
 //MONGOSH  CONNECTION
 const mongoose = require('mongoose');
-const dbUrl = 'mongodb://127.0.0.1:27017/YelpCamp';
+const dbUrl = process.env.DB_URL;
 main().catch(err => console.log(err));
 async function main() {
     await mongoose.connect(dbUrl); // use `await mongoose.connect('mongodb://user:password@127.0.0.1:27017/test');` if your database has auth enabled
@@ -58,10 +58,11 @@ const store = MongoStore.create({
 });
 
 store.on("error", function(e){
-    console.log("session store error");
+    console.log("session store error", e);
 })
 
 const sessionConfig = {
+    store,
     name: 'session',
     secret: 'thisshouldbeabettersecret!',
     resave: false,
