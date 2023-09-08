@@ -5,7 +5,7 @@ if (process.env.NODE_ENV !== "production") { //enviroment variable thats usually
 
 const express = require('express');
 const path = require('path');
-const ExpressError = require('./Utilities/ExpressError');
+const ExpressError = require('./utilities/ExpressError');
 const methodOverride = require('method-override');
 const ejsMate = require('ejs-mate');
 const session = require('express-session');
